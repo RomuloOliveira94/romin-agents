@@ -1,27 +1,29 @@
-// Auto-sync prompts from romin-agents repo on opencode startup.
-// Install: cp plugins/sync-prompts.js ~/.config/opencode/plugins/
+// Auto-sync prompts from the romin-agents GitHub repo on startup.
+// Uses gh so private repos work with the user's existing GitHub CLI auth.
 export const SyncPromptsPlugin = async ({ $ }) => {
   const DEST = `${process.env.HOME}/.config/opencode/agents/prompts`
+  const GITHUB_REPO = process.env.OPENCODE_PROMPTS_REPO || "RomuloOliveira94/romin-agents"
+  const PROMPTS_PATH = process.env.OPENCODE_PROMPTS_PATH || "agents/prompts"
 
-  const candidates = [
-    `${process.env.HOME}/dev/romin-agents`,
-    `${process.env.HOME}/src/romin-agents`,
-    `${process.env.HOME}/code/romin-agents`,
-    `${process.env.HOME}/projects/romin-agents`,
-    `${process.env.HOME}/romin-agents`,
-  ]
+  try {
+    await $`mkdir -p ${DEST}`
 
-  for (const repo of candidates) {
-    const src = `${repo}/agents/prompts`
-    try {
-      const { exitCode } = await $`test -d ${src}`
-      if (exitCode === 0) {
-        await $`mkdir -p ${DEST}`
-        await $`cp ${src}/*.txt ${DEST}/`
-        const count = (await $`ls ${DEST}/*.txt 2>/dev/null | wc -l`).text().trim()
-        console.log(`sync-prompts: ${count} prompts synced from ${repo}`)
-        return
-      }
-    } catch {}
+    const names = (await $`gh api repos/${GITHUB_REPO}/contents/${PROMPTS_PATH} --jq '.[] | select(.type == "file" and (.name | endswith(".txt"))) | .name'`.text()).trim()
+    if (!names) {
+      console.warn(`sync-prompts: no .txt prompts found in ${GITHUB_REPO}/${PROMPTS_PATH}`)
+      return {}
+    }
+
+    let count = 0
+    for (const name of names.split("\n")) {
+      await $`gh api -H 'Accept: application/vnd.github.raw' repos/${GITHUB_REPO}/contents/${PROMPTS_PATH}/${name} > ${DEST}/${name}`.quiet()
+      count += 1
+    }
+
+    console.log(`sync-prompts: ${count} prompts synced from ${GITHUB_REPO}/${PROMPTS_PATH}`)
+  } catch (error) {
+    console.warn(`sync-prompts: failed to sync from ${GITHUB_REPO}/${PROMPTS_PATH}: ${error}`)
   }
+
+  return {}
 }

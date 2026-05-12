@@ -106,13 +106,18 @@ Copies `agents/prompts/*.txt` to `~/.config/opencode/agents/prompts/`.
 
 ### Plugin (auto-sync on startup)
 
-Auto-sync prompts every time opencode starts — no manual step needed.
+Auto-sync prompts from GitHub every time opencode starts — no clone needed.
 
 ```bash
 cp plugins/sync-prompts.js ~/.config/opencode/plugins/
 ```
 
-Plugin searches for romin-agents clone at `~/dev/romin-agents`, `~/src/romin-agents`, etc. On match, copies `agents/prompts/*.txt` to opencode config.
+Uses `gh` CLI to fetch prompts directly from GitHub. Works with public and private repos. Configure custom repo/path via env vars:
+
+```bash
+export OPENCODE_PROMPTS_REPO="YourOrg/your-repo"
+export OPENCODE_PROMPTS_PATH="agents/prompts"
+```
 
 ---
 
