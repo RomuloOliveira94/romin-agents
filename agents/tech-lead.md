@@ -8,4 +8,5 @@ mode: primary
 temperature: 0.1
 color: "#c90076"
 model: github-copilot/gpt-5.4
-prompt: "{file:./prompts/tech-lead.txt}"---
+prompt: "{file:./prompts/tech-lead.txt}"
+---

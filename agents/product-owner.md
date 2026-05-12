@@ -7,4 +7,5 @@ mode: subagent
 model: github-copilot/gemini-3.1-pro-preview
 temperature: 0.5
 color: "#38027D"
-prompt: "{file:./prompts/product-owner.txt}"---
+prompt: "{file:./prompts/product-owner.txt}"
+---

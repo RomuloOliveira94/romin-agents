@@ -6,4 +6,5 @@ mode: subagent
 model: github-copilot/gemini-3.1-pro-preview
 temperature: 0.0
 color: "#F27907"
-prompt: "{file:./prompts/rails-reviewer.txt}"---
+prompt: "{file:./prompts/rails-reviewer.txt}"
+---

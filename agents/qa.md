@@ -6,4 +6,5 @@ mode: subagent
 model: opencode-go/deepseek-v4-flash
 temperature: 0.5
 color: "#13CF22"
-prompt: "{file:./prompts/qa.txt}"---
+prompt: "{file:./prompts/qa.txt}"
+---
