@@ -1,0 +1,18 @@
+#!/bin/bash
+# sync-prompts: copy prompt .txt files from romin-agents to local OpenCode
+# Usage: bash bin/sync-prompts [repo-path]
+#   repo-path defaults to parent of bin/
+# Run after: git pull
+
+REPO_DIR="${1:-$(cd "$(dirname "$0")/.." && pwd)}"
+DEST="$HOME/.config/opencode/agents/prompts"
+
+if [ ! -d "$REPO_DIR" ]; then
+  echo "✗ Repo not found at $REPO_DIR"
+  echo "  Usage: bash sync-prompts /path/to/romin-agents"
+  exit 1
+fi
+
+mkdir -p "$DEST"
+cp "$REPO_DIR/agents/prompts/"*.txt "$DEST/"
+echo "✓ $(ls "$DEST"/*.txt 2>/dev/null | wc -l) prompts synced to $DEST"
