@@ -92,6 +92,18 @@ ln -s "$PWD/agents" ~/.config/opencode/agents
 
 Now any edit to the agents is instantly reflected in the repo. Just `git commit && git push` from this directory to sync.
 
+### Prompt sync (non-symlink setups)
+
+If you copy instead of symlink, sync prompts after pulling updates:
+
+```bash
+bash bin/sync-prompts
+# or from anywhere:
+bash /path/to/romin-agents/bin/sync-prompts
+```
+
+Copies `agents/prompts/*.txt` to `~/.config/opencode/agents/prompts/`.
+
 ---
 
 ## Requirements
