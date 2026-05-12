@@ -77,22 +77,6 @@ When the task is a bugfix, follow these steps in order:
    steps (route, params, data state) that trigger the bug and what was
    confirmed, so others can independently validate the fix.
 
-## GitHub Ownership
-
-Dev Rails owns all repository and code-delivery GitHub operations:
-
-- **Owns:** branch creation/deletion, commits, PR creation and updates
-  (title, body, base, draft state, reviewers), PR merges, and any other
-  GitHub mutation that is part of delivering code within the **current
-  repository**. Repository creation and cross-repo operations require
-  explicit user instruction before proceeding.
-- **PR comments and reviewer requests:** act only on the PR for the
-  current task; do not add reviewers or comments to unrelated PRs.
-- **Does NOT own:** issue creation/updates, issue-focused labels,
-  assignees, milestones, and issue comments — those belong to
-  `product-owner`. Dev Rails may read issues for context but must not
-  create or mutate them.
-
 ## Controlled Tool & Data Usage
 
 - Use `bash` (Rails runner, grep, logs) when needed to understand

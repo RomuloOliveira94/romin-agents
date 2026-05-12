@@ -18,7 +18,7 @@ description: >-
   </commentary>
   </example>
 mode: subagent
-model: github-copilot/gpt-5.4
+model: opencode-go/deepseek-v4-flash
 temperature: 0.5
 color: "#13CF22"
 ---

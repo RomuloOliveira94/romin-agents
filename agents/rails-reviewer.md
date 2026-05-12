@@ -15,7 +15,7 @@ description: >-
   </commentary>
   </example>
 mode: subagent
-model: github-copilot/gpt-5.4
+model: github-copilot/gemini-3.1-pro-preview
 temperature: 0.0
 color: "#F27907"
 ---
