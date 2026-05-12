@@ -104,6 +104,16 @@ bash /path/to/romin-agents/bin/sync-prompts
 
 Copies `agents/prompts/*.txt` to `~/.config/opencode/agents/prompts/`.
 
+### Plugin (auto-sync on startup)
+
+Auto-sync prompts every time opencode starts — no manual step needed.
+
+```bash
+cp plugins/sync-prompts.js ~/.config/opencode/plugins/
+```
+
+Plugin searches for romin-agents clone at `~/dev/romin-agents`, `~/src/romin-agents`, etc. On match, copies `agents/prompts/*.txt` to opencode config.
+
 ---
 
 ## Requirements
