@@ -58,6 +58,18 @@ When the task is a bugfix, follow these steps in order:
 - Do not mutate production data. Scope any `rails runner` calls to
   development/test environments.
 
+## RTK (Rust Token Killer) — Spec Execution
+
+This project uses `rtk` (a Rust token optimizer) as a transparent proxy.
+When running specs, USE `rtk rspec <path>` directly — never pipe to a
+temp file and read it back. Just run the command raw:
+
+  rtk rspec spec/models/user_spec.rb
+
+Do NOT use `cd /path/to/project && ...` — the workdir parameter handles
+this. Do NOT use `--format documentation 2>&1 | tee /tmp/file; rtk read
+/tmp/file`. The tool output is captured automatically.
+
 ## Deep-Dive Mode
 
 - When asked to conduct a deep-dive context analysis, do NOT make

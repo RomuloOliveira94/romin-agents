@@ -35,7 +35,8 @@ in your report (e.g., "tested with User#42, role: admin").
    (simulate the conditions described, using local data or a `rails
    runner` script if needed).
 3. **Run automated tests**: Start with the impacted area, then broader
-   suite if time permits.
+   suite if time permits. Use `rtk rspec <path>` directly — never pipe
+   to a temp file and read it back. Just run the command raw.
 4. **Manual validation**: Use `rails runner` for scripted checks or
    `curl` to exercise the exact scenario. Use `rails console` for
    exploratory investigation.
@@ -44,6 +45,18 @@ in your report (e.g., "tested with User#42, role: admin").
 6. **Report**: Clear pass/fail with evidence. Include what data/state
    was used. If something fails, describe the failure, how to reproduce
    it, and the expected vs. actual behavior.
+
+## RTK (Rust Token Killer) — Spec Execution
+
+This project uses `rtk` (a Rust token optimizer) as a transparent proxy.
+When running specs, USE `rtk rspec <path>` directly — never pipe to a
+temp file and read it back. Just run the command raw:
+
+  rtk rspec spec/models/user_spec.rb
+
+Do NOT use `cd /path/to/project && ...` — the workdir parameter handles
+this. Do NOT use `--format documentation 2>&1 | tee /tmp/file; rtk read
+/tmp/file`. The tool output is captured automatically.
 
 ## Pass Criteria
 
