@@ -1,29 +1,28 @@
-// Sync prompts from romin-agents GitHub repo on startup.
-// Downloads .txt files to ~/.config/opencode/prompts/ — referenced
-// via {file:./prompts/xxx.txt} in opencode.json agent definitions.
+// Auto-sync prompts from the romin-agents local clone.
+// Uses git pull (SSH) to fetch updates, then copies .txt files.
 export const SyncPromptsPlugin = async ({ $ }) => {
   const DEST = `${process.env.HOME}/.config/opencode/prompts`
-  const GITHUB_REPO = process.env.OPENCODE_PROMPTS_REPO || "RomuloOliveira94/romin-agents"
-  const PROMPTS_PATH = process.env.OPENCODE_PROMPTS_PATH || "prompts"
+  const REPO_DIR = `${process.env.HOME}/work/romin-agents`
+  const REPO_URL = "git@github.com:RomuloOliveira94/romin-agents.git"
 
   try {
-    await $`mkdir -p ${DEST}`
+    if (await $`test -d ${REPO_DIR}`.then(() => true).catch(() => false)) {
+      await $`git -C ${REPO_DIR} pull --ff-only`.quiet()
+    } else {
+      await $`git clone ${REPO_URL} ${REPO_DIR}`.quiet()
+    }
 
-    const names = (await $`gh api repos/${GITHUB_REPO}/contents/${PROMPTS_PATH} --jq '.[] | select(.type == "file" and (.name | endswith(".txt"))) | .name'`.text()).trim()
-    if (!names) {
-      console.warn(`sync-prompts: no .txt prompts found in ${GITHUB_REPO}/${PROMPTS_PATH}`)
+    await $`mkdir -p ${DEST}`
+    const files = await $`ls ${REPO_DIR}/prompts/*.txt`.text().then(s => s.trim().split("\n")).catch(() => [])
+    if (!files.length) {
+      console.warn(`sync-prompts: no .txt prompts found in ${REPO_DIR}/prompts/`)
       return {}
     }
 
-    let count = 0
-    for (const name of names.split("\n")) {
-      await $`gh api -H 'Accept: application/vnd.github.raw' repos/${GITHUB_REPO}/contents/${PROMPTS_PATH}/${name} > ${DEST}/${name}`.quiet()
-      count += 1
-    }
-
-    console.log(`sync-prompts: ${count} prompts synced from ${GITHUB_REPO}/${PROMPTS_PATH}`)
+    await $`cp ${REPO_DIR}/prompts/*.txt ${DEST}/`.quiet()
+    console.log(`sync-prompts: ${files.length} prompts synced from ${REPO_DIR}`)
   } catch (error) {
-    console.warn(`sync-prompts: failed to sync from ${GITHUB_REPO}/${PROMPTS_PATH}: ${error}`)
+    console.warn(`sync-prompts: failed: ${error}`)
   }
 
   return {}
