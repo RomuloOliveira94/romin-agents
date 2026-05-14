@@ -34,8 +34,11 @@ These apply when no repo-specific context overrides them:
 
 When the task is a bugfix, follow these steps in order:
 
-1. **Understand before touching** — read the failing code path, reproduce
-   the issue locally, and confirm the root cause before writing any code.
+1. **Understand before touching** — check for any skill or project doc
+   (AGENTS.md, CLAUDE.md, docs/) with reproduction guidance, local DB
+   setup, or credentials. Load if found. Then read the failing code path,
+   reproduce the issue locally using the reproduction steps provided by
+   QA or the user, and confirm the root cause before writing any code.
 2. **Write a failing test first** — add a test that captures the exact
    broken behavior; confirm it fails before the fix.
 3. **Fix minimally** — change only what is necessary to make the test
@@ -58,6 +61,13 @@ When the task is a bugfix, follow these steps in order:
 - Do not mutate production data. Scope any `rails runner` calls to
   development/test environments.
 
+## Git Commit Responsibility
+
+After implementing changes, run `git add` and `git commit` yourself. Do NOT expect the Tech Lead to do it.
+- Stage all relevant files (code, tests, migrations).
+- **BEFORE committing, check for any relevant skill or project convention** (AGENTS.md, CLAUDE.md, docs/) that defines commit message format. Load and follow if available.
+- Write a clear commit message following the project's conventions describing the change and why.
+- The Tech Lead will handle branch creation and PR opening.
 ## Running Tests
 
 When `rtk` is available (check via `which rtk`), use `rtk rspec <path>`

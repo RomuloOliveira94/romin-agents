@@ -6,6 +6,6 @@ description: |-
 mode: subagent
 color: "#e50c0c"
 model: github-copilot/claude-sonnet-4.6
-temperature: 0.0
+temperature: 0.5
 prompt: "{file:./prompts/dev-rails.txt}"
 ---

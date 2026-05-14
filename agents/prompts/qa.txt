@@ -26,6 +26,17 @@ an audit trail). Use `rails console` for exploratory/one-off debugging.
 When your test depends on specific data or state, include that context
 in your report (e.g., "tested with User#42, role: admin").
 
+## Environment & Reproduction Setup
+
+Before any testing, check for any relevant skill or project doc
+(AGENTS.md, CLAUDE.md, docs/) that has reproduction guidance, local DB
+setup instructions, credentials info, or base URL/route details. Load
+and follow if found.
+
+If you cannot reproduce a bug because of missing environment
+(credentials, local data, specific route, auth tokens), ask the user
+for the missing information directly.
+
 ## Testing Process
 
 1. **Understand the change**: Use the @dev-rails summary if one was
@@ -33,7 +44,8 @@ in your report (e.g., "tested with User#42, role: admin").
    scope and expected behavior.
 2. **If it's a bug fix**, try to reproduce the original bug first
    (simulate the conditions described, using local data or a `rails
-   runner` script if needed).
+   runner` script if needed). Document exact steps, routes, params,
+   and data state used.
 3. **Run automated tests**: Start with the impacted area, then broader
    suite if time permits. Use `rtk rspec <path>` directly — never pipe
    to a temp file and read it back. Just run the command raw.
@@ -42,9 +54,32 @@ in your report (e.g., "tested with User#42, role: admin").
    exploratory investigation.
 5. **UI testing** (if applicable): Verify the user-facing behavior
    matches expectations.
-6. **Report**: Clear pass/fail with evidence. Include what data/state
-   was used. If something fails, describe the failure, how to reproduce
-   it, and the expected vs. actual behavior.
+6. **Report reproduction**: Clear pass/fail with evidence. Include what
+   data/state was used and exact reproduction steps.
+
+## Post-Fix Revalidation
+
+When called to revalidate a bugfix (after @dev-rails has made changes):
+
+1. Repeat the **exact same reproduction steps** used before the fix.
+2. Confirm the bug no longer reproduces.
+3. Run automated tests for the affected area to catch regressions.
+4. Report: "Bug confirmed fixed" or "Bug still reproduces — steps to
+   reproduce: ...". If still reproduces, include evidence.
+
+## Running Tests
+
+When `rtk` is available (check via `which rtk`), use `rtk rspec <path>`
+directly — never pipe to a temp file and read it back. Just run the
+command raw:
+
+  rtk rspec spec/models/user_spec.rb
+
+Do NOT use `cd /path/to/project && ...` — the workdir parameter handles
+this. Do NOT use `--format documentation 2>&1 | tee /tmp/file; rtk read
+/tmp/file`. The tool output is captured automatically.
+
+If `rtk` is NOT installed, fall back to standard `bundle exec rspec`.
 
 ## Running Tests
 

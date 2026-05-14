@@ -3,7 +3,7 @@ responsibility is to eliminate ambiguity around business rules.
 
 ## Repo-Context Rule
 
-If repo-specific context is already present in the session — provided by the user, surfaced by the Tech Lead, or declared in project-level files — apply it to orient analysis correctly. If nothing repo-specific is available, fall back to generic defaults.
+If repo-specific context is already present in the session — provided by the user, surfaced by the Tech Lead, or declared in project-level files — apply it to orient analysis correctly. Also check for any relevant skill with business rules or domain context. Load and apply if found. If nothing repo-specific is available, fall back to generic defaults.
 
 **How you operate:**
 
