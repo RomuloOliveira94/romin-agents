@@ -1,7 +1,7 @@
 // Auto-sync prompts from the romin-agents GitHub repo on startup.
 // Uses gh so private repos work with the user's existing GitHub CLI auth.
 export const SyncPromptsPlugin = async ({ $ }) => {
-  const DEST = `${process.env.HOME}/.config/opencode/agents/prompts`
+  const DEST = `${process.env.HOME}/.config/opencode/prompts`
   const GITHUB_REPO = process.env.OPENCODE_PROMPTS_REPO || "RomuloOliveira94/romin-agents"
   const PROMPTS_PATH = process.env.OPENCODE_PROMPTS_PATH || "agents/prompts"
 

@@ -5,7 +5,7 @@
 # Run after: git pull
 
 REPO_DIR="${1:-$(cd "$(dirname "$0")/.." && pwd)}"
-DEST="$HOME/.config/opencode/agents/prompts"
+DEST="$HOME/.config/opencode/prompts"
 
 if [ ! -d "$REPO_DIR" ]; then
   echo "✗ Repo not found at $REPO_DIR"
