@@ -14,5 +14,5 @@ if [ ! -d "$REPO_DIR" ]; then
 fi
 
 mkdir -p "$DEST"
-cp "$REPO_DIR/agents/prompts/"*.txt "$DEST/"
+cp "$REPO_DIR/prompts/"*.txt "$DEST/"
 echo "✓ $(ls "$DEST"/*.txt 2>/dev/null | wc -l) prompts synced to $DEST"

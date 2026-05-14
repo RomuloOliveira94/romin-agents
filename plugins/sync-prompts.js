@@ -3,7 +3,7 @@
 export const SyncPromptsPlugin = async ({ $ }) => {
   const DEST = `${process.env.HOME}/.config/opencode/prompts`
   const GITHUB_REPO = process.env.OPENCODE_PROMPTS_REPO || "RomuloOliveira94/romin-agents"
-  const PROMPTS_PATH = process.env.OPENCODE_PROMPTS_PATH || "agents/prompts"
+  const PROMPTS_PATH = process.env.OPENCODE_PROMPTS_PATH || "prompts"
 
   try {
     await $`mkdir -p ${DEST}`
