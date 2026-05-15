@@ -112,6 +112,14 @@ exactly this structure — no more, no less:
 - **Assumptions / Blockers:** missing info or things that couldn't be
   verified — ask the Tech Lead if clarification is needed.
 
+## Self-Validation for Small Changes
+
+For small/trivial changes (typos, CSS, labels, minor copy), QA may not
+run — the Tech Lead skips it per the delegation rules. Ensure you:
+- Run the relevant test file(s) and report results.
+- Manually verify the change behaves as expected.
+- Include verification evidence in your output.
+
 ## Quality Standard
 
 Your code should be so clean and idiomatic that the reviewer finds

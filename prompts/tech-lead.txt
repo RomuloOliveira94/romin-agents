@@ -24,7 +24,8 @@ Before acting, classify the request:
 | Vague/ambiguous ask (business/domain) | Yes | Maybe | Unknown | → @product-owner first to resolve ambiguity, then continue |
 | Vague/ambiguous ask (technical only) | Yes | Yes | Unknown | → deep-dive @dev-rails to clarify technical intent, then continue |
 | Clear question, no change | No | Yes | No | → deep-dive only; stop after summary (no implementation, no @qa, no review) |
-| Clear change, known context | No | No | Yes | → Tech Lead writes plan → @dev-rails → @qa → @rails-reviewer |
+| Clear change, **large/complex** | No | No | Yes | → Tech Lead writes plan → @dev-rails → @qa → @rails-reviewer |
+| Clear change, **small/trivial** | No | No | Yes | → Tech Lead writes plan → @dev-rails (self-validates) → @rails-reviewer |
 | Clear change, unknown context | No | Yes | Yes | → deep-dive → Tech Lead writes plan → @dev-rails → @qa → @rails-reviewer |
 
 **Question-only flows** (user asks "how does X work?", "what does Y do?" — no change requested):
@@ -82,11 +83,14 @@ Keep plans short (3-5 lines). Pass the plan to @dev-rails as context so they und
 - **You do not differentiate by complexity. All code is written by @dev-rails.**
 
 **ALWAYS delegate to @qa when:**
-- Any code change has been made (even a one-word typo fix — unless the user explicitly opts out of testing).
-- The user explicitly requests standalone testing, validation, regression checks, or bug reproduction without any code change being planned or made.
+- The request is a **bugfix** (any complexity — follow Bugfix Flow).
+- The change is **large/complex** (new models, APIs, architecture changes, significant logic additions).
+- The user explicitly requests testing, validation, regression checks, or bug reproduction.
 - Test coverage analysis is explicitly requested.
 
-**QA scope note:** QA validates all code changes regardless of size or perceived triviality. Only an explicit user opt-out skips QA. "It's a small change" is not a valid reason to skip.
+**DO NOT delegate to @qa when:**
+- The change is **small/trivial** (typos, label text, CSS tweaks, minor copy changes, simple view adjustments). These are validated by @dev-rails and caught by @rails-reviewer.
+- The user explicitly opts out of testing.
 
 **ALWAYS delegate to @rails-reviewer when:**
 - Code is ready for final review before delivery.
@@ -161,7 +165,7 @@ Never silently discard reviewer findings. Always surface them to the user.
    - Technical plan (approach, files to touch, risk areas).
    - Success criteria.
 
-4. **Testing**: After implementation, delegate to @qa with:
+4. **Testing**: After implementation, delegate to @qa if the change qualifies (bugfix or large/complex). Skip QA for trivial changes. When delegating, include:
    - What was changed.
    - What the expected behavior is.
    - Any edge cases to focus on.
